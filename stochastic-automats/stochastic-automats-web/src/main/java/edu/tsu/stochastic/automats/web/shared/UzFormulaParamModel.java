@@ -1,8 +1,11 @@
-package edu.tsu.stochastic.automats.core.model;
+package edu.tsu.stochastic.automats.web.shared;
+
+import com.google.gwt.core.shared.GwtIncompatible;
+import edu.tsu.stochastic.automats.core.model.UzFormulaModel;
 
 import java.io.Serializable;
 
-public class UzFormulaModel implements Serializable {
+public class UzFormulaParamModel implements Serializable {
     private double r;
     private double a;
     private double e;
@@ -10,10 +13,10 @@ public class UzFormulaModel implements Serializable {
     private double z;
     private double l;
 
-    public UzFormulaModel() {
+    public UzFormulaParamModel() {
     }
 
-    public UzFormulaModel(double r, double a, double e, double m, double z, double l) {
+    public UzFormulaParamModel(double r, double a, double e, double m, double z, double l) {
         this.r = r;
         this.a = a;
         this.e = e;
@@ -70,15 +73,18 @@ public class UzFormulaModel implements Serializable {
         this.l = l;
     }
 
-    @Override
-    public String toString() {
-        return "UzFormulaModel{" +
-                "r=" + r +
-                ", a=" + a +
-                ", e=" + e +
-                ", m=" + m +
-                ", z=" + z +
-                ", l=" + l +
-                '}';
+    @GwtIncompatible
+    public UzFormulaModel toUzFormulaModel() {
+        UzFormulaModel model = new UzFormulaModel();
+
+        model.setA(a);
+        model.setL(l);
+        model.setR(r);
+        model.setZ(z);
+        model.setM(m);
+        model.setE(e);
+
+        return model;
     }
+
 }

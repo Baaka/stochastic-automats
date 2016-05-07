@@ -14,7 +14,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-  <modules>
-    <module>stochastic-automats-core</module>
+    <modules>
+        <module>stochastic-automats-core</module>
+        <module>stochastic-automats-service</module>
+        <module>stochastic-automats-web</module>
   </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 </project>

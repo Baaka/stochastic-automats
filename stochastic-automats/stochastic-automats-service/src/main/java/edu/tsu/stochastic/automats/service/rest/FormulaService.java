@@ -1,7 +1,5 @@
 package edu.tsu.stochastic.automats.service.rest;
 
-import edu.tsu.stochastic.automats.core.formula.UzFormulaCalculator;
-import edu.tsu.stochastic.automats.core.model.UzFormulaModel;
 import edu.tsu.stochastic.automats.service.model.UzFormulaResultModel;
 import edu.tsu.stochastic.automats.service.model.WnFormulaResultModel;
 
@@ -34,7 +32,7 @@ public class FormulaService {
     ) {
         double z = 1;
         double l = 1;
-
+/*
         UzFormulaModel model = new UzFormulaModel(r, a, e, m, z, l);
         UzFormulaCalculator calculator = new UzFormulaCalculator(model);
 
@@ -44,7 +42,9 @@ public class FormulaService {
         result.setP(calculator.getP());
         result.setQ(calculator.getQ());
 
-        return result;
+        return result;*/
+
+        return null;
     }
 
 }

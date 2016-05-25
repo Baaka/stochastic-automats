@@ -1,7 +1,6 @@
 package edu.tsu.stochastic.automats.web.shared;
 
 import com.google.gwt.core.shared.GwtIncompatible;
-import edu.tsu.stochastic.automats.core.model.UzFormulaModel;
 
 import java.io.Serializable;
 
@@ -74,8 +73,8 @@ public class UzFormulaParamModel implements Serializable {
     }
 
     @GwtIncompatible
-    public UzFormulaModel toUzFormulaModel() {
-        UzFormulaModel model = new UzFormulaModel();
+    public edu.tsu.stochastic.automats.core.model.UzFormulaParamModel toUzFormulaCodeParamModel() {
+        edu.tsu.stochastic.automats.core.model.UzFormulaParamModel model = new edu.tsu.stochastic.automats.core.model.UzFormulaParamModel();
 
         model.setA(a);
         model.setL(l);

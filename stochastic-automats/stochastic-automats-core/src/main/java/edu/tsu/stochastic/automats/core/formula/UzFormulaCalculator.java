@@ -1,17 +1,18 @@
 package edu.tsu.stochastic.automats.core.formula;
 
-import edu.tsu.stochastic.automats.core.helper.FormulaHelper;
-import edu.tsu.stochastic.automats.core.model.UzFormulaModel;
+import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
+import edu.tsu.stochastic.automats.core.helper.CommonFormulaHelper;
+import edu.tsu.stochastic.automats.core.model.UzFormulaParamModel;
 
 public class UzFormulaCalculator implements Formula {
 
-    private UzFormulaModel model;
+    private UzFormulaParamModel model;
 
     private final double r;
     private final double p;
     private final double q;
 
-    public UzFormulaCalculator(UzFormulaModel model) {
+    public UzFormulaCalculator(UzFormulaParamModel model) {
         this.model = model;
 
         r = getRForUz(model.getE(), model.getM(), model.getR());
@@ -21,18 +22,6 @@ public class UzFormulaCalculator implements Formula {
 
     public double getResult() {
         return calculateUz(model.getZ(), p, q, r, model.getL());
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public double getP() {
-        return p;
-    }
-
-    public double getQ() {
-        return q;
     }
 
     private double calculateUz(double z, double p, double q, double r, double l) {
@@ -49,12 +38,40 @@ public class UzFormulaCalculator implements Formula {
     }
 
     private double getPForUz(double r, double a, double e) {
-        double p = FormulaHelper.getSmallP(r, a);
+        double p = CommonFormulaHelper.getSmallP(r, a);
         return p + (e * r);
     }
 
     private double getQForUz(double r, double a, double m) {
-        double q = FormulaHelper.getSmallQ(r, a);
+        double q = CommonFormulaHelper.getSmallQ(r, a);
         return q + (m * r);
+    }
+
+    public double getR() {
+        return r;
+    }
+
+    public double getP() {
+        return p;
+    }
+
+    public double getQ() {
+        return q;
+    }
+
+    public UzFormula getCalculatedUzFormula() {
+        UzFormula formula = new UzFormula();
+        formula.setParamR(model.getR());
+        formula.setParamAlpha(model.getA());
+        formula.setParamEpsilon(model.getE());
+        formula.setParamEta(model.getM());
+        formula.setParamL(model.getL());
+        formula.setParamZ(model.getZ());
+        formula.setR(r);
+        formula.setP(p);
+        formula.setQ(q);
+        formula.setResult(getResult());
+
+        return formula;
     }
 }

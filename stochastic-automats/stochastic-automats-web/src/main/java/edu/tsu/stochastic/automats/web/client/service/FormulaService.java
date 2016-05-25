@@ -3,6 +3,8 @@ package edu.tsu.stochastic.automats.web.client.service;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaParamModel;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaParamModel;
@@ -29,4 +31,6 @@ public interface FormulaService extends RemoteService {
     UzFormulaResultModel calculateUzFormula(UzFormulaParamModel uzFormulaParamModel);
 
     WnFormulaResultModel calculateWnFormula(WnFormulaParamModel wnFormulaParamModel, int maxN);
+
+    PagingLoadResult<UzFormulaResultModel> loadCalculatedUzFormulas(PagingLoadConfig loadConfig);
 }

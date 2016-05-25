@@ -1,8 +1,13 @@
 package edu.tsu.stochastic.automats.web.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import edu.tsu.stochastic.automats.core.formula.UzFormulaCalculator;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
+import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
+import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
 import edu.tsu.stochastic.automats.core.formula.WnFormulaCalculator;
+import edu.tsu.stochastic.automats.core.helper.FormulaHelper;
+import edu.tsu.stochastic.automats.core.helper.FormulaHelperDbImpl;
 import edu.tsu.stochastic.automats.core.model.WnFormulaModel;
 import edu.tsu.stochastic.automats.web.client.service.FormulaService;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaParamModel;
@@ -10,19 +15,17 @@ import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaParamModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaResultModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FormulaServiceImpl extends RemoteServiceServlet implements FormulaService {
 
     @Override
     public UzFormulaResultModel calculateUzFormula(UzFormulaParamModel uzFormulaParamModel) {
-        UzFormulaCalculator calculator = new UzFormulaCalculator(uzFormulaParamModel.toUzFormulaModel());
+        FormulaHelper helper = new FormulaHelperDbImpl();
+        UzFormula uzFormula = helper.calculateUzFormula(uzFormulaParamModel.toUzFormulaCodeParamModel());
 
-        UzFormulaResultModel resultModel = new UzFormulaResultModel();
-        resultModel.setResult(calculator.getResult());
-        resultModel.setR(calculator.getR());
-        resultModel.setQ(calculator.getQ());
-        resultModel.setP(calculator.getP());
-
-        return resultModel;
+        return new UzFormulaResultModel().setEntity(uzFormula);
     }
 
     @Override
@@ -44,5 +47,24 @@ public class FormulaServiceImpl extends RemoteServiceServlet implements FormulaS
         }
 
         return resultModel;
+    }
+
+    @Override
+    public PagingLoadResult<UzFormulaResultModel> loadCalculatedUzFormulas(PagingLoadConfig loadConfig) {
+        List<UzFormulaResultModel> rr = new ArrayList<>();
+        UzFormulaResultModel m = new UzFormulaResultModel();
+        m.setId(1);
+        m.setParamAlpha(12);
+        m.setP(123);
+
+        UzFormulaResultModel m1 = new UzFormulaResultModel();
+        m.setId(2);
+        m.setParamAlpha(2312);
+        m.setP(12323);
+
+        rr.add(m);
+        rr.add(m1);
+
+        return new PagingLoadResultBean<>(rr, rr.size(), loadConfig.getOffset());
     }
 }

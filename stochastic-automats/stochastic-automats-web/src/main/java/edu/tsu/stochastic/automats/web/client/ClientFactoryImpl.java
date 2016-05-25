@@ -3,9 +3,11 @@ package edu.tsu.stochastic.automats.web.client;
 import com.google.gwt.event.shared.HandlerManager;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandler;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandlerImpl;
+import edu.tsu.stochastic.automats.web.client.presenter.AddUzFormulaPresenter;
 import edu.tsu.stochastic.automats.web.client.presenter.AppFramePresenter;
 import edu.tsu.stochastic.automats.web.client.presenter.UzFormulaPresenter;
 import edu.tsu.stochastic.automats.web.client.presenter.WnFormulaPresenter;
+import edu.tsu.stochastic.automats.web.client.view.AddUzFormulaView;
 import edu.tsu.stochastic.automats.web.client.view.AppFrameView;
 import edu.tsu.stochastic.automats.web.client.view.UzFormulaView;
 import edu.tsu.stochastic.automats.web.client.view.WnFormulaView;
@@ -40,5 +42,10 @@ public class ClientFactoryImpl implements ClientFactory {
     @Override
     public WnFormulaPresenter.Display getWnFormulaDisplay() {
         return new WnFormulaView();
+    }
+
+    @Override
+    public AddUzFormulaPresenter.Display getAddUzFormulaDisplay() {
+        return new AddUzFormulaView();
     }
 }

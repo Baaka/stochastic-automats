@@ -27,8 +27,12 @@ public class HdFormulaCalculatorTest {
 
         double ro = Math.pow(getRo(l, q, p), (x - 2) * -1);
 
+        double eps = 0.3d;
+        double r = 0.5d;
+        double m = 0.5d; // eta
+
         //fixme
-        double R = 1;
+        double R = getRForHd(eps, m, r);
 
         double res = 0;
         for (int d = 1; d <= maxd; d++) {
@@ -44,7 +48,6 @@ public class HdFormulaCalculatorTest {
 
     @Test
     public void testIotaX() {
-
         int l = 1;
         double q = 1;
         double p = 2;
@@ -56,8 +59,13 @@ public class HdFormulaCalculatorTest {
 
         double ro = Math.pow(getRo(l, q, p), (x - 2) * -1);
 
+
+        double eps = 0.3d;
+        double r = 0.5d;
+        double m = 0.5d; // eta
+
         //fixme
-        double R = 1;
+        double R = getRForHd(eps, m, r);
 
         double res = 0;
         for (int d = 1; d <= maxd; d++) {
@@ -153,5 +161,9 @@ public class HdFormulaCalculatorTest {
 
     private static boolean accurate(double x0, double x1) {
         return Math.abs(x1 - x0) < 0.000001;
+    }
+
+    private double getRForHd(double e, double m, double r) {
+        return (1d - e - m) * r;
     }
 }

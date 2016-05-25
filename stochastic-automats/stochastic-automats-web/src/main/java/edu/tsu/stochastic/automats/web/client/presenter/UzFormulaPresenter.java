@@ -1,13 +1,11 @@
 package edu.tsu.stochastic.automats.web.client.presenter;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.info.Info;
 import edu.tsu.stochastic.automats.web.client.AppController;
-import edu.tsu.stochastic.automats.web.client.service.FormulaService;
-import edu.tsu.stochastic.automats.web.shared.UzFormulaParamModel;
+import edu.tsu.stochastic.automats.web.client.event.AddUzFormulaEvent;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModel;
 
 public class UzFormulaPresenter implements Presenter {
@@ -19,32 +17,88 @@ public class UzFormulaPresenter implements Presenter {
     }
 
     public interface Display extends IsWidget {
-        SelectEvent.HasSelectHandlers getCalculateButton();
+        SelectEvent.HasSelectHandlers getFilterButton();
 
-        boolean isValid();
+        SelectEvent.HasSelectHandlers getAddButton();
 
-        UzFormulaParamModel getModel();
+        SelectEvent.HasSelectHandlers getEditButton();
 
-        void appendResult(String result);
+        SelectEvent.HasSelectHandlers getDeleteButton();
+
+        SelectEvent.HasSelectHandlers getExportButton();
+
+        SelectEvent.HasSelectHandlers getImportButton();
+
+        void addModel(UzFormulaResultModel model);
+
+        void updateModel(UzFormulaResultModel model);
+
+        //UzFormulaParamModel getModel();
+
+        //void appendResult(String result);
+    }
+
+    private void todo() {
+        Info.display("//TODO", "//TODO");
     }
 
     private void bind() {
-        if (display.getCalculateButton() != null) {
-            display.getCalculateButton().addSelectHandler(new SelectEvent.SelectHandler() {
+        if (display.getFilterButton() != null) {
+            display.getFilterButton().addSelectHandler(new SelectEvent.SelectHandler() {
                 @Override
                 public void onSelect(SelectEvent event) {
-                    if (display.isValid()) {
-                        UzFormulaParamModel model = display.getModel();
-                        calculateUzFormula(model);
-                    } else {
-                        Info.display("Warning", "Fill fields correctly");
-                    }
+                    todo();
+                }
+            });
+        }
+
+        if (display.getAddButton() != null) {
+            display.getAddButton().addSelectHandler(new SelectEvent.SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+                    AppController.eventBus.fireEvent(new AddUzFormulaEvent());
+                }
+            });
+        }
+
+        if (display.getEditButton() != null) {
+            display.getEditButton().addSelectHandler(new SelectEvent.SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+                    todo();
+                }
+            });
+        }
+
+        if (display.getDeleteButton() != null) {
+            display.getDeleteButton().addSelectHandler(new SelectEvent.SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+                    todo();
+                }
+            });
+        }
+
+        if (display.getExportButton() != null) {
+            display.getExportButton().addSelectHandler(new SelectEvent.SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+                    todo();
+                }
+            });
+        }
+
+        if (display.getImportButton() != null) {
+            display.getImportButton().addSelectHandler(new SelectEvent.SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+                    todo();
                 }
             });
         }
     }
 
-    private void calculateUzFormula(final UzFormulaParamModel model) {
+    /*private void calculateUzFormula(final UzFormulaParamModel model) {
         FormulaService.Util.getInstance().calculateUzFormula(model, new AsyncCallback<UzFormulaResultModel>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -66,6 +120,10 @@ public class UzFormulaPresenter implements Presenter {
                 display.appendResult(sb.toString());
             }
         });
+    }*/
+
+    public Display getDisplay() {
+        return display;
     }
 
     @Override

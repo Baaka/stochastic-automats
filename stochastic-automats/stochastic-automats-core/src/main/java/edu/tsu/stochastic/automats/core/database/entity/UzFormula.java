@@ -1,24 +1,50 @@
-package edu.tsu.stochastic.automats.web.shared;
+package edu.tsu.stochastic.automats.core.database.entity;
 
-import com.google.gwt.core.shared.GwtIncompatible;
-import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
-
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class UzFormulaResultModel implements Serializable {
+@Entity(name = "FORMULA_UZ")
+@Table(name = "FORMULA_UZ")
+public class UzFormula implements Serializable {
+    @Id
+    @SequenceGenerator(name = "uz_formula_sequence", sequenceName = "uz_formula_sequence", allocationSize = 1)
+    @GeneratedValue(generator = "uz_formula_sequence", strategy = GenerationType.SEQUENCE)
     private long id;
+    @Column(name = "PARAM_R")
     private double paramR;
+    @Column(name = "PARAM_ALPHA")
     private double paramAlpha;
+    @Column(name = "PARAM_EPSILON")
     private double paramEpsilon;
+    @Column(name = "PARAM_ETA")
     private double paramEta;
+    @Column(name = "PARAM_Z")
     private double paramZ;
+    @Column(name = "PARAM_L")
     private double paramL;
+    @Column(name = "CALC_R")
     private double r;
+    @Column(name = "CALC_P")
     private double p;
+    @Column(name = "CALC_Q")
     private double q;
+    @Column(name = "CALC_RES")
     private double result;
 
-    public UzFormulaResultModel() {
+    public UzFormula() {
+    }
+
+    public UzFormula(double paramR, double paramAlpha, double paramEpsilon, double paramEta, double paramZ, double paramL, double r, double p, double q, double result) {
+        this.paramR = paramR;
+        this.paramAlpha = paramAlpha;
+        this.paramEpsilon = paramEpsilon;
+        this.paramEta = paramEta;
+        this.paramZ = paramZ;
+        this.paramL = paramL;
+        this.r = r;
+        this.p = p;
+        this.q = q;
+        this.result = result;
     }
 
     public long getId() {
@@ -109,55 +135,20 @@ public class UzFormulaResultModel implements Serializable {
         this.result = result;
     }
 
-    @GwtIncompatible
-    public UzFormulaResultModel setEntity(UzFormula formula) {
-        if (formula != null) {
-            this.id = formula.getId();
-            this.paramR = formula.getParamR();
-            this.paramAlpha = formula.getParamAlpha();
-            this.paramEpsilon = formula.getParamEpsilon();
-            this.paramEta = formula.getParamEta();
-            this.paramZ = formula.getParamZ();
-            this.paramL = formula.getParamL();
-            this.r = formula.getR();
-            this.p = formula.getP();
-            this.q = formula.getQ();
-            this.result = formula.getResult();
-        }
-        return this;
-    }
-
-    @GwtIncompatible
-    public UzFormula toEntity() {
-        UzFormula formula = new UzFormula();
-        formula.setId(this.id);
-        formula.setParamR(this.paramR);
-        formula.setParamAlpha(this.paramAlpha);
-        formula.setParamEpsilon(this.paramEpsilon);
-        formula.setParamEta(this.paramEta);
-        formula.setParamZ(this.paramZ);
-        formula.setParamL(this.paramL);
-        formula.setR(this.r);
-        formula.setP(this.p);
-        formula.setQ(this.q);
-        formula.setResult(this.result);
-        return formula;
-    }
-
     @Override
     public String toString() {
-        return "UzFormulaResultModel{" +
-                "result=" + result +
-                ", q=" + q +
-                ", p=" + p +
-                ", r=" + r +
-                ", paramL=" + paramL +
-                ", paramZ=" + paramZ +
-                ", paramEta=" + paramEta +
-                ", paramEpsilon=" + paramEpsilon +
-                ", paramAlpha=" + paramAlpha +
+        return "UzFormula{" +
+                "id=" + id +
                 ", paramR=" + paramR +
-                ", id=" + id +
+                ", paramAlpha=" + paramAlpha +
+                ", paramEpsilon=" + paramEpsilon +
+                ", paramEta=" + paramEta +
+                ", paramZ=" + paramZ +
+                ", paramL=" + paramL +
+                ", r=" + r +
+                ", p=" + p +
+                ", q=" + q +
+                ", result=" + result +
                 '}';
     }
 }

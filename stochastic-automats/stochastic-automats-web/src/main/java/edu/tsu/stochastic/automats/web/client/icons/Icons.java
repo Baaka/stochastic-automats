@@ -12,4 +12,31 @@ public interface Icons extends ClientBundle {
 
     @Source("function.png")
     ImageResource function();
+
+    @Source("edit.png")
+    ImageResource edit();
+
+    @Source("add.png")
+    ImageResource add();
+
+    @Source("delete.png")
+    ImageResource delete();
+
+    @Source("refresh.png")
+    ImageResource refresh();
+
+    @Source("search.png")
+    ImageResource search();
+
+    @Source("export.png")
+    ImageResource export();
+
+    @Source("import.png")
+    ImageResource importSmall();
+
+    @Source("calculate.png")
+    ImageResource calculate();
+
+    @Source("cancel.png")
+    ImageResource cancel();
 }

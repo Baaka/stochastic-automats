@@ -2,7 +2,7 @@ package edu.tsu.stochastic.automats.core.model;
 
 import java.io.Serializable;
 
-public class UzFormulaModel implements Serializable {
+public class UzFormulaParamModel implements Serializable {
     private double r;
     private double a;
     private double e;
@@ -10,10 +10,10 @@ public class UzFormulaModel implements Serializable {
     private double z;
     private double l;
 
-    public UzFormulaModel() {
+    public UzFormulaParamModel() {
     }
 
-    public UzFormulaModel(double r, double a, double e, double m, double z, double l) {
+    public UzFormulaParamModel(double r, double a, double e, double m, double z, double l) {
         this.r = r;
         this.a = a;
         this.e = e;

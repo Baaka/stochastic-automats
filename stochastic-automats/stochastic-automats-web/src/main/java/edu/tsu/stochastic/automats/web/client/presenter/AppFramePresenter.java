@@ -37,16 +37,7 @@ public class AppFramePresenter implements Presenter {
     private void selectFormula(Formula formula) {
         if (containerMap.get(formula) == null) {
             SimpleContainer sc = new SimpleContainer();
-            switch (formula) {
-                case WN_FUNCTION:
-                    new WnFormulaPresenter(AppController.clientFactory.getWnFormulaDisplay()).go(sc);
-                    break;
-                case UZ_FUNCTION:
-                    new UzFormulaPresenter(AppController.clientFactory.getUzFormulaDisplay()).go(sc);
-                    break;
-                case HDJ_FUNCTION:
-                    break;
-            }
+            AppController.appFormulasStore.get(formula).go(sc);
             containerMap.put(formula, sc);
         }
         setWidget(formula);

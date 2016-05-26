@@ -51,4 +51,7 @@ public interface Icons extends ClientBundle {
 
     @Source("html.png")
     ImageResource html();
+
+    @Source("tsu.png")
+    ImageResource tsu();
 }

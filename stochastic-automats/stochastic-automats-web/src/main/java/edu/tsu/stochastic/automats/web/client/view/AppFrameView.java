@@ -1,5 +1,6 @@
 package edu.tsu.stochastic.automats.web.client.view;
 
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.dom.XDOM;
 import com.sencha.gxt.core.client.util.Margins;
@@ -10,6 +11,7 @@ import com.sencha.gxt.widget.core.client.button.ToolButton;
 import com.sencha.gxt.widget.core.client.container.*;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.tips.ToolTipConfig;
+import com.sencha.gxt.widget.core.client.toolbar.FillToolItem;
 import edu.tsu.stochastic.automats.web.client.icons.Icons;
 import edu.tsu.stochastic.automats.web.client.presenter.AppFramePresenter;
 import edu.tsu.stochastic.automats.web.shared.Formula;
@@ -42,12 +44,16 @@ public class AppFrameView implements AppFramePresenter.Display {
 
         VerticalLayoutContainer westContainer = new VerticalLayoutContainer();
 
-        BorderLayoutContainer.BorderLayoutData west = new BorderLayoutContainer.BorderLayoutData(250);
+        BorderLayoutContainer.BorderLayoutData west = new BorderLayoutContainer.BorderLayoutData(.10);
         west.setMargins(new Margins(10));
 
         westContainer.add(uzFormulaButton, new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5)));
         westContainer.add(wnFormulaButton, new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5)));
         westContainer.add(hdjFormulaButton, new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5)));
+
+        Image image = new Image(Icons.INSTANCE.tsu());
+        westContainer.add(new FillToolItem());
+        westContainer.add(image,new VerticalLayoutContainer.VerticalLayoutData(-1,-1,new Margins(300,10,10,10)));
 
         BorderLayoutContainer borderLayoutContainer = new BorderLayoutContainer();
         panel.setWidget(borderLayoutContainer);

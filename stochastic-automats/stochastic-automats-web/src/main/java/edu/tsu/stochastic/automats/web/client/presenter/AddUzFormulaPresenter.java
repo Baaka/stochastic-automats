@@ -81,6 +81,7 @@ public class AddUzFormulaPresenter implements Presenter {
     public void go(HasWidgets container) {
         if (container != null) {
             container.add(display.asWidget());
+            return;
         }
         display.asWidget();
         bind();

@@ -2,10 +2,7 @@ package edu.tsu.stochastic.automats.web.client;
 
 import com.google.gwt.event.shared.HandlerManager;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandler;
-import edu.tsu.stochastic.automats.web.client.presenter.AddUzFormulaPresenter;
-import edu.tsu.stochastic.automats.web.client.presenter.AppFramePresenter;
-import edu.tsu.stochastic.automats.web.client.presenter.UzFormulaPresenter;
-import edu.tsu.stochastic.automats.web.client.presenter.WnFormulaPresenter;
+import edu.tsu.stochastic.automats.web.client.presenter.*;
 
 public interface ClientFactory {
     ErrorHandler getErrorHandler();
@@ -19,4 +16,6 @@ public interface ClientFactory {
     WnFormulaPresenter.Display getWnFormulaDisplay();
 
     AddUzFormulaPresenter.Display getAddUzFormulaDisplay();
+
+    FileImportPresenter.Display getImportFormulaDisplay();
 }

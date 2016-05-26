@@ -68,7 +68,6 @@ public class AppController implements Presenter {
             }
         });
 
-        // TODO
         AppController.eventBus.addHandler(ResultExportEvent.TYPE, new ResultExportEventHandler() {
             @Override
             public void onExport(List<Long> ids, Formula formula, ExportFormat exportFormat) {
@@ -108,6 +107,23 @@ public class AppController implements Presenter {
             @Override
             public void onAction() {
                 Presenter presenter = new AddUzFormulaPresenter(clientFactory.getAddUzFormulaDisplay(), ((UzFormulaPresenter) appFormulasStore.get(Formula.UZ_FUNCTION)).getDisplay());
+                presenter.go(null);
+            }
+        });
+
+        AppController.eventBus.addHandler(ImportFormulaEvent.TYPE, new ImportFormulaEventHandler() {
+            @Override
+            public void onImport(Formula formula) {
+                Presenter presenter = null;
+                switch (formula) {
+                    case WN_FUNCTION:
+                        break;
+                    case UZ_FUNCTION:
+                        presenter = new FileImportPresenter(clientFactory.getImportFormulaDisplay(), formula, (UzFormulaPresenter) appFormulasStore.get(formula));
+                        break;
+                    case HDJ_FUNCTION:
+                        break;
+                }
                 presenter.go(null);
             }
         });

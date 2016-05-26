@@ -28,8 +28,7 @@ public class ResultExportServlet extends HttpServlet {
     @EJB
     private FormulaLocal formulaLocal;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Formula formula = Formula.values()[Integer.valueOf(request.getParameter("formula"))];
         ExportFormat exportFormat = ExportFormat.values()[Integer.valueOf(request.getParameter("exportFormat"))];
         //TODO use ids
@@ -184,8 +183,8 @@ public class ResultExportServlet extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 
 }

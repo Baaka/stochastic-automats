@@ -24,6 +24,12 @@ public class FormulaSession implements FormulaLocal {
         return uzFormula;
     }
 
+    public void saveUzFormulas(List<UzFormula> formulas) {
+        for (UzFormula formula : formulas) {
+            saveUzFormula(formula);
+        }
+    }
+
     public void deleteUzFormula(long formulaId) {
         UzFormula uzFormula = em.find(UzFormula.class, formulaId);
         em.remove(uzFormula);

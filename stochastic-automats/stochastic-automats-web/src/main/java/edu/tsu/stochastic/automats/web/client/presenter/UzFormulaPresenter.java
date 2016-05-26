@@ -12,6 +12,7 @@ import com.sencha.gxt.widget.core.client.info.Info;
 import com.sencha.gxt.widget.core.client.menu.Item;
 import edu.tsu.stochastic.automats.web.client.AppController;
 import edu.tsu.stochastic.automats.web.client.event.AddUzFormulaEvent;
+import edu.tsu.stochastic.automats.web.client.event.ImportFormulaEvent;
 import edu.tsu.stochastic.automats.web.client.event.ResultExportEvent;
 import edu.tsu.stochastic.automats.web.client.service.FormulaService;
 import edu.tsu.stochastic.automats.web.shared.ExportFormat;
@@ -99,7 +100,7 @@ public class UzFormulaPresenter implements Presenter {
             display.getImportButton().addSelectHandler(new SelectEvent.SelectHandler() {
                 @Override
                 public void onSelect(SelectEvent event) {
-                    todo();
+                    AppController.eventBus.fireEvent(new ImportFormulaEvent(Formula.UZ_FUNCTION));
                 }
             });
         }

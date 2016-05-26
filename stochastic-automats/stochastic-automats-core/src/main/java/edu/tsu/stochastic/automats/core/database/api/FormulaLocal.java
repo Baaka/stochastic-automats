@@ -7,6 +7,8 @@ import java.util.List;
 public interface FormulaLocal {
     UzFormula saveUzFormula(UzFormula uzFormula);
 
+    void saveUzFormulas(List<UzFormula> formulas);
+
     void deleteUzFormula(long formulaId);
 
     List<UzFormula> loadCalculatedUzFormulas(int limit, int offset);

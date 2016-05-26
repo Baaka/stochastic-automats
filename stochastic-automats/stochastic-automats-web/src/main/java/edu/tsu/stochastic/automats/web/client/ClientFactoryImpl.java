@@ -3,14 +3,8 @@ package edu.tsu.stochastic.automats.web.client;
 import com.google.gwt.event.shared.HandlerManager;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandler;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandlerImpl;
-import edu.tsu.stochastic.automats.web.client.presenter.AddUzFormulaPresenter;
-import edu.tsu.stochastic.automats.web.client.presenter.AppFramePresenter;
-import edu.tsu.stochastic.automats.web.client.presenter.UzFormulaPresenter;
-import edu.tsu.stochastic.automats.web.client.presenter.WnFormulaPresenter;
-import edu.tsu.stochastic.automats.web.client.view.AddUzFormulaView;
-import edu.tsu.stochastic.automats.web.client.view.AppFrameView;
-import edu.tsu.stochastic.automats.web.client.view.UzFormulaView;
-import edu.tsu.stochastic.automats.web.client.view.WnFormulaView;
+import edu.tsu.stochastic.automats.web.client.presenter.*;
+import edu.tsu.stochastic.automats.web.client.view.*;
 
 public class ClientFactoryImpl implements ClientFactory {
     private final HandlerManager eventBus = new HandlerManager(null);
@@ -47,5 +41,10 @@ public class ClientFactoryImpl implements ClientFactory {
     @Override
     public AddUzFormulaPresenter.Display getAddUzFormulaDisplay() {
         return new AddUzFormulaView();
+    }
+
+    @Override
+    public FileImportPresenter.Display getImportFormulaDisplay() {
+        return new FileImportView();
     }
 }

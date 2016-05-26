@@ -17,6 +17,7 @@ public class UzFormulaResultModel implements Serializable {
     private double p;
     private double q;
     private double result;
+    private double privateCaseResult;
 
     public UzFormulaResultModel() {
     }
@@ -109,6 +110,14 @@ public class UzFormulaResultModel implements Serializable {
         this.result = result;
     }
 
+    public double getPrivateCaseResult() {
+        return privateCaseResult;
+    }
+
+    public void setPrivateCaseResult(double privateCaseResult) {
+        this.privateCaseResult = privateCaseResult;
+    }
+
     @GwtIncompatible
     public UzFormulaResultModel setEntity(UzFormula formula) {
         if (formula != null) {
@@ -123,6 +132,7 @@ public class UzFormulaResultModel implements Serializable {
             this.p = formula.getP();
             this.q = formula.getQ();
             this.result = formula.getResult();
+            this.privateCaseResult = formula.getPrivateCaseResult();
         }
         return this;
     }
@@ -141,6 +151,7 @@ public class UzFormulaResultModel implements Serializable {
         formula.setP(this.p);
         formula.setQ(this.q);
         formula.setResult(this.result);
+        formula.setPrivateCaseResult(this.privateCaseResult);
         return formula;
     }
 

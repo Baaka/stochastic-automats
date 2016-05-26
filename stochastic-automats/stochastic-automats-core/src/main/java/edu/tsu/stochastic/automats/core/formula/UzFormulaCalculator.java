@@ -72,6 +72,16 @@ public class UzFormulaCalculator implements Formula {
         formula.setQ(q);
         formula.setResult(getResult());
 
+        double privateCaseResult = 0;
+        if (model.getZ() == 1) {
+            if (model.getL() == 1) {
+                privateCaseResult = (p / q);
+            } else if (model.getL() == 2) {
+                privateCaseResult = (Math.sqrt(1d + 4d * p / q) - 1d) / 2d;
+            }
+        }
+        formula.setPrivateCaseResult(privateCaseResult);
+
         return formula;
     }
 }

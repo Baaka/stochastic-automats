@@ -5,15 +5,18 @@ import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
 @Local(FormulaLocal.class)
 public class FormulaSession implements FormulaLocal {
-
-    @Inject
+    @PersistenceContext
     private EntityManager em;
 
     public UzFormula saveUzFormula(UzFormula uzFormula) {
@@ -27,6 +30,22 @@ public class FormulaSession implements FormulaLocal {
     }
 
     public List<UzFormula> loadCalculatedUzFormulas(int limit, int offset) {
-        return em.createQuery("SELECT uz FROM FORMULA_UZ uz ORDER BY uz.id DESC", UzFormula.class).setFirstResult(offset).setMaxResults(limit).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<UzFormula> cq = cb.createQuery(UzFormula.class);
+        Root<UzFormula> root = cq.from(UzFormula.class);
+        cq.select(root);
+        cq.orderBy(cb.desc(root.get("id")));
+
+        TypedQuery<UzFormula> query = em.createQuery(cq);
+        if (limit > 0) {
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+        }
+
+        return query.getResultList();
+    }
+
+    public int getCalculatedUzFormulaCount() {
+        return loadCalculatedUzFormulas(-1, -1).size();
     }
 }

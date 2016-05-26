@@ -1,0 +1,7 @@
+-- MSSQL 2014
+CREATE SEQUENCE uz_formula_sequence
+AS [bigint]
+START WITH 1
+INCREMENT BY 1
+CACHE
+GO

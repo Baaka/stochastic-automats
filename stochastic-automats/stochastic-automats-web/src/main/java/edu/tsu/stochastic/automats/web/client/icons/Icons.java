@@ -39,4 +39,16 @@ public interface Icons extends ClientBundle {
 
     @Source("cancel.png")
     ImageResource cancel();
+
+    @Source("excel.png")
+    ImageResource excel();
+
+    @Source("pdf.png")
+    ImageResource pdf();
+
+    @Source("text.png")
+    ImageResource text();
+
+    @Source("html.png")
+    ImageResource html();
 }

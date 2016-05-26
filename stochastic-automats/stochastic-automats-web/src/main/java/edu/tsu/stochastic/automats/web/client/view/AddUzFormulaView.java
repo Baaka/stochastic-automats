@@ -20,7 +20,7 @@ public class AddUzFormulaView implements AddUzFormulaPresenter.Display {
         saveButton = new TextButton("Save", Icons.INSTANCE.calculate());
         cancelButton = new TextButton("Cancel", Icons.INSTANCE.cancel());
 
-        NumberPropertyEditor editor = new NumberPropertyEditor.DoublePropertyEditor();
+        NumberPropertyEditor<Double> editor = new NumberPropertyEditor.DoublePropertyEditor();
 
         rParamField = new NumberField<Double>(editor);
         rParamField.setAllowBlank(false);
@@ -36,19 +36,21 @@ public class AddUzFormulaView implements AddUzFormulaPresenter.Display {
 
         zParamField = new NumberField<Double>(editor);
         zParamField.setAllowBlank(false);
+        zParamField.setValue(1d);
 
         lParamField = new NumberField<Double>(editor);
         lParamField.setAllowBlank(false);
+        lParamField.setValue(1d);
 
         VerticalLayoutContainer.VerticalLayoutData vld = new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5, 10, 5, 10));
 
         VerticalLayoutContainer vc = new VerticalLayoutContainer();
-        vc.add(getLabel(rParamField, "r"), vld);
-        vc.add(getLabel(aParamField, "a"), vld);
-        vc.add(getLabel(eParamField, "e"), vld);
-        vc.add(getLabel(mParamField, "m"), vld);
-        vc.add(getLabel(zParamField, "z"), vld);
-        vc.add(getLabel(lParamField, "l"), vld);
+        vc.add(getLabel(rParamField, "param - r"), vld);
+        vc.add(getLabel(aParamField, "param - a"), vld);
+        vc.add(getLabel(eParamField, "param - e"), vld);
+        vc.add(getLabel(mParamField, "param - m"), vld);
+        vc.add(getLabel(zParamField, "param - z"), vld);
+        vc.add(getLabel(lParamField, "param - l"), vld);
 
         window = new Window();
         window.setHeadingHtml("<center>Add U(z) Formula Params</center>");

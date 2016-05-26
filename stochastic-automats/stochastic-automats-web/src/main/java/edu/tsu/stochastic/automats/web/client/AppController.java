@@ -8,14 +8,13 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandler;
-import edu.tsu.stochastic.automats.web.client.event.AddUzFormulaEvent;
-import edu.tsu.stochastic.automats.web.client.event.AddUzFormulaEventHandler;
-import edu.tsu.stochastic.automats.web.client.event.FormulaResultExportEvent;
-import edu.tsu.stochastic.automats.web.client.event.FormulaResultExportEventHandler;
+import edu.tsu.stochastic.automats.web.client.event.*;
 import edu.tsu.stochastic.automats.web.client.presenter.*;
+import edu.tsu.stochastic.automats.web.shared.ExportFormat;
 import edu.tsu.stochastic.automats.web.shared.Formula;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AppController implements Presenter {
@@ -63,6 +62,42 @@ public class AppController implements Presenter {
                 menuInput.setName("formulaResult");
                 menuInput.setValue(result);
                 formElement.appendChild(menuInput);
+
+                Document.get().getBody().appendChild(formElement);
+                formElement.submit();
+            }
+        });
+
+        // TODO
+        AppController.eventBus.addHandler(ResultExportEvent.TYPE, new ResultExportEventHandler() {
+            @Override
+            public void onExport(List<Long> ids, Formula formula, ExportFormat exportFormat) {
+                String url = GWT.getHostPageBaseURL() + "resultExportServlet";
+                final FormPanel form = new FormPanel();
+                form.setAction(url);
+                form.setMethod(FormPanel.METHOD_POST);
+                FormElement formElement = FormElement.as(form.getElement());
+
+                InputElement formulaElement = Document.get().createHiddenInputElement();
+                formulaElement.setName("formula");
+                formulaElement.setValue(formula.ordinal() + "");
+                formElement.appendChild(formulaElement);
+
+                InputElement exportElement = Document.get().createHiddenInputElement();
+                exportElement.setName("exportFormat");
+                exportElement.setValue(exportFormat.ordinal() + "");
+                formElement.appendChild(exportElement);
+
+                StringBuilder sb = new StringBuilder();
+                for (Long id : ids) {
+                    sb.append(id)
+                            .append(",");
+                }
+
+                InputElement idsElement = Document.get().createHiddenInputElement();
+                idsElement.setName("ids");
+                idsElement.setValue(sb.toString());
+                formElement.appendChild(idsElement);
 
                 Document.get().getBody().appendChild(formElement);
                 formElement.submit();

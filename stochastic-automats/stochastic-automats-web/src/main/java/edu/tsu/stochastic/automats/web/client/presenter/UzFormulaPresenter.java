@@ -1,12 +1,25 @@
 package edu.tsu.stochastic.automats.web.client.presenter;
 
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.info.Info;
+import com.sencha.gxt.widget.core.client.menu.Item;
 import edu.tsu.stochastic.automats.web.client.AppController;
 import edu.tsu.stochastic.automats.web.client.event.AddUzFormulaEvent;
+import edu.tsu.stochastic.automats.web.client.event.ResultExportEvent;
+import edu.tsu.stochastic.automats.web.client.service.FormulaService;
+import edu.tsu.stochastic.automats.web.shared.ExportFormat;
+import edu.tsu.stochastic.automats.web.shared.Formula;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UzFormulaPresenter implements Presenter {
 
@@ -21,21 +34,19 @@ public class UzFormulaPresenter implements Presenter {
 
         SelectEvent.HasSelectHandlers getAddButton();
 
-        SelectEvent.HasSelectHandlers getEditButton();
-
         SelectEvent.HasSelectHandlers getDeleteButton();
 
-        SelectEvent.HasSelectHandlers getExportButton();
+        SelectEvent.HasSelectHandlers getRefreshButton();
 
         SelectEvent.HasSelectHandlers getImportButton();
 
+        HasSelectionHandlers<Item> getExportButton();
+
         void addModel(UzFormulaResultModel model);
 
-        void updateModel(UzFormulaResultModel model);
+        List<UzFormulaResultModel> getResultModels();
 
-        //UzFormulaParamModel getModel();
-
-        //void appendResult(String result);
+        void refresh();
     }
 
     private void todo() {
@@ -61,29 +72,25 @@ public class UzFormulaPresenter implements Presenter {
             });
         }
 
-        if (display.getEditButton() != null) {
-            display.getEditButton().addSelectHandler(new SelectEvent.SelectHandler() {
-                @Override
-                public void onSelect(SelectEvent event) {
-                    todo();
-                }
-            });
-        }
-
         if (display.getDeleteButton() != null) {
             display.getDeleteButton().addSelectHandler(new SelectEvent.SelectHandler() {
                 @Override
                 public void onSelect(SelectEvent event) {
-                    todo();
+                    List<UzFormulaResultModel> resultModels = display.getResultModels();
+                    if (resultModels != null && !resultModels.isEmpty()) {
+                        deleteResults(resultModels);
+                    } else {
+                        new AlertMessageBox("Warning", "Please choose results you want to delete!").show();
+                    }
                 }
             });
         }
 
-        if (display.getExportButton() != null) {
-            display.getExportButton().addSelectHandler(new SelectEvent.SelectHandler() {
+        if (display.getRefreshButton() != null) {
+            display.getRefreshButton().addSelectHandler(new SelectEvent.SelectHandler() {
                 @Override
                 public void onSelect(SelectEvent event) {
-                    todo();
+                    display.refresh();
                 }
             });
         }
@@ -96,31 +103,38 @@ public class UzFormulaPresenter implements Presenter {
                 }
             });
         }
+
+        if (display.getExportButton() != null) {
+            display.getExportButton().addSelectionHandler(new SelectionHandler<Item>() {
+                @Override
+                public void onSelection(SelectionEvent<Item> event) {
+                    ExportFormat exportFormat = event.getSelectedItem().getData("exportFormat");
+                    List<Long> ids = new ArrayList<>();
+                    List<UzFormulaResultModel> selectedModels = display.getResultModels();
+                    if (selectedModels != null) {
+                        for (UzFormulaResultModel model : selectedModels) {
+                            ids.add(model.getId());
+                        }
+                    }
+                    AppController.eventBus.fireEvent(new ResultExportEvent(ids, Formula.UZ_FUNCTION, exportFormat));
+                }
+            });
+        }
     }
 
-    /*private void calculateUzFormula(final UzFormulaParamModel model) {
-        FormulaService.Util.getInstance().calculateUzFormula(model, new AsyncCallback<UzFormulaResultModel>() {
+    private void deleteResults(List<UzFormulaResultModel> resultModels) {
+        FormulaService.Util.getInstance().deleteCalculatedUzFormula(resultModels, new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable caught) {
                 AppController.errorHandler.onError(caught);
             }
 
             @Override
-            public void onSuccess(UzFormulaResultModel result) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("a = ").append(model.getA()).append("; ")
-                        .append("r = ").append(model.getR()).append("; ")
-                        .append("m = ").append(model.getM()).append("; ")
-                        .append("z = ").append(model.getZ()).append("; ")
-                        .append("l = ").append(model.getL()).append("; \n")
-                        .append("R = ").append(result.getR()).append("; ")
-                        .append("P = ").append(result.getP()).append("; ")
-                        .append("Q = ").append(result.getQ()).append("; ")
-                        .append("RESULT U(z) = ").append(result.getResult()).append("; \n\n");
-                display.appendResult(sb.toString());
+            public void onSuccess(Void result) {
+                display.refresh();
             }
         });
-    }*/
+    }
 
     public Display getDisplay() {
         return display;

@@ -2,6 +2,9 @@ package edu.tsu.stochastic.automats.web.client.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.IdentityValueProvider;
@@ -24,6 +27,8 @@ import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.menu.Item;
+import com.sencha.gxt.widget.core.client.menu.MenuItem;
 import com.sencha.gxt.widget.core.client.tips.ToolTipConfig;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.sencha.gxt.widget.core.client.toolbar.SeparatorToolItem;
@@ -32,6 +37,7 @@ import edu.tsu.stochastic.automats.web.client.AppController;
 import edu.tsu.stochastic.automats.web.client.icons.Icons;
 import edu.tsu.stochastic.automats.web.client.presenter.UzFormulaPresenter;
 import edu.tsu.stochastic.automats.web.client.service.FormulaService;
+import edu.tsu.stochastic.automats.web.client.widget.ExportButton;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModel;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModelProperties;
 
@@ -45,18 +51,20 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
 
     private void initButtonToolbar() {
         addButton = new TextButton("Add", Icons.INSTANCE.add());
-        editButton = new TextButton("Edit", Icons.INSTANCE.edit());
         deleteButton = new TextButton("Delete", Icons.INSTANCE.delete());
         refreshButton = new TextButton("Refresh", Icons.INSTANCE.refresh());
-        exportButton = new TextButton("Export", Icons.INSTANCE.export());
         importButton = new TextButton("Import", Icons.INSTANCE.importSmall());
 
-        /*BoxLayoutContainer.BoxLayoutData flexData = new BoxLayoutContainer.BoxLayoutData();
-        flexData.setFlex(1d);
-*/
+        exportItem = new MenuItem();
+        ExportButton exportButton = new ExportButton("exp", Icons.INSTANCE.export(), new SelectionHandler<Item>() {
+            @Override
+            public void onSelection(SelectionEvent<Item> event) {
+                exportItem.fireEvent(event);
+            }
+        });
+
         buttonToolbar = new ToolBar();
         buttonToolbar.add(addButton);
-        buttonToolbar.add(editButton);
         buttonToolbar.add(deleteButton);
         buttonToolbar.add(new SeparatorToolItem());
         buttonToolbar.add(refreshButton);
@@ -83,16 +91,17 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
             }
         };
 
-        ColumnConfig<UzFormulaResultModel, Double> rParamCol = new ColumnConfig<>(properties.paramR(), 20, "r");
-        ColumnConfig<UzFormulaResultModel, Double> alphaParamCol = new ColumnConfig<>(properties.paramR(), 20, "alpha");
-        ColumnConfig<UzFormulaResultModel, Double> epsilonParamCol = new ColumnConfig<>(properties.paramR(), 20, "epsilon");
-        ColumnConfig<UzFormulaResultModel, Double> etaParamCol = new ColumnConfig<>(properties.paramR(), 20, "eta");
-        ColumnConfig<UzFormulaResultModel, Double> zParamCol = new ColumnConfig<>(properties.paramR(), 20, "z");
-        ColumnConfig<UzFormulaResultModel, Double> lParamCol = new ColumnConfig<>(properties.paramR(), 20, "l");
-        ColumnConfig<UzFormulaResultModel, Double> rCalcCol = new ColumnConfig<>(properties.paramR(), 20, "Calc: R");
-        ColumnConfig<UzFormulaResultModel, Double> pCalcCol = new ColumnConfig<>(properties.paramR(), 20, "Calc: P");
-        ColumnConfig<UzFormulaResultModel, Double> qCalcCol = new ColumnConfig<>(properties.paramR(), 20, "Calc: Q");
-        ColumnConfig<UzFormulaResultModel, Double> resultCol = new ColumnConfig<>(properties.paramR(), 30, "Result");
+        ColumnConfig<UzFormulaResultModel, Double> rParamCol = new ColumnConfig<>(properties.paramR(), 15, "r");
+        ColumnConfig<UzFormulaResultModel, Double> alphaParamCol = new ColumnConfig<>(properties.paramAlpha(), 20, "alpha");
+        ColumnConfig<UzFormulaResultModel, Double> epsilonParamCol = new ColumnConfig<>(properties.paramEpsilon(), 20, "epsilon");
+        ColumnConfig<UzFormulaResultModel, Double> etaParamCol = new ColumnConfig<>(properties.paramEta(), 20, "eta");
+        ColumnConfig<UzFormulaResultModel, Double> zParamCol = new ColumnConfig<>(properties.paramZ(), 15, "z");
+        ColumnConfig<UzFormulaResultModel, Double> lParamCol = new ColumnConfig<>(properties.paramL(), 15, "l");
+        ColumnConfig<UzFormulaResultModel, Double> rCalcCol = new ColumnConfig<>(properties.r(), 20, "Calc: R");
+        ColumnConfig<UzFormulaResultModel, Double> pCalcCol = new ColumnConfig<>(properties.p(), 20, "Calc: P");
+        ColumnConfig<UzFormulaResultModel, Double> qCalcCol = new ColumnConfig<>(properties.q(), 20, "Calc: Q");
+        ColumnConfig<UzFormulaResultModel, Double> resultCol = new ColumnConfig<>(properties.result(), 30, "Result");
+        ColumnConfig<UzFormulaResultModel, Double> privResultCol = new ColumnConfig<>(properties.privateCaseResult(), 30, "Pr.Case Result");
 
         ListStore<UzFormulaResultModel> store = new ListStore<>(new ModelKeyProvider<UzFormulaResultModel>() {
             @Override
@@ -127,6 +136,7 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
         columnConfigs.add(pCalcCol);
         columnConfigs.add(qCalcCol);
         columnConfigs.add(resultCol);
+        columnConfigs.add(privResultCol);
 
         ColumnModel<UzFormulaResultModel> cm = new ColumnModel<>(columnConfigs);
 
@@ -198,11 +208,6 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
         filterButton = new TextButton();
         filterButton.setIcon(Icons.INSTANCE.search());
 
-        /*resultArea = new TextArea();
-        resultArea.setReadOnly(true);
-        FieldLabel resultLabel = new FieldLabel(resultArea, "RESULT");
-        resultLabel.setLabelAlign(FormPanel.LabelAlign.TOP);*/
-
         BoxLayoutContainer.BoxLayoutData flexData = new BoxLayoutContainer.BoxLayoutData();
         flexData.setFlex(1d);
 
@@ -215,15 +220,6 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
         filterToolbar.add(zNumberField, flexData);
         filterToolbar.add(lNumberField, flexData);
         filterToolbar.add(filterButton);
-
-       /* Anchor exportFormulaResultAnchor = new Anchor("Export formula results");
-        exportFormulaResultAnchor.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                resultArea.finishEditing();
-                AppController.eventBus.fireEvent(new FormulaResultExportEvent(Formula.UZ_FUNCTION, resultArea.getValue()));
-            }
-        });*/
     }
 
 
@@ -238,18 +234,13 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
     }
 
     @Override
-    public SelectEvent.HasSelectHandlers getEditButton() {
-        return editButton;
-    }
-
-    @Override
     public SelectEvent.HasSelectHandlers getDeleteButton() {
         return deleteButton;
     }
 
     @Override
-    public SelectEvent.HasSelectHandlers getExportButton() {
-        return exportButton;
+    public SelectEvent.HasSelectHandlers getRefreshButton() {
+        return refreshButton;
     }
 
     @Override
@@ -258,46 +249,24 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
     }
 
     @Override
+    public HasSelectionHandlers<Item> getExportButton() {
+        return exportItem;
+    }
+
+    @Override
     public void addModel(UzFormulaResultModel model) {
         grid.getStore().add(model);
     }
 
     @Override
-    public void updateModel(UzFormulaResultModel model) {
-        //TODO
+    public List<UzFormulaResultModel> getResultModels() {
+        return grid.getSelectionModel().getSelectedItems();
     }
 
-    /*@Override
-    public boolean isValid() {
-        return true;
-    }*/
-
-    /*@Override
-    public UzFormulaParamModel getModel() {
-        rNumberField.finishEditing();
-        aNumberField.finishEditing();
-        eNumberField.finishEditing();
-        mNumberField.finishEditing();
-        zNumberField.finishEditing();
-        lNumberField.finishEditing();
-
-        UzFormulaParamModel model = new UzFormulaParamModel();
-        model.setR(rNumberField.getValue());
-        model.setA(aNumberField.getValue());
-        model.setE(eNumberField.getValue());
-        model.setM(mNumberField.getValue());
-        model.setZ(zNumberField.getValue());
-        model.setL(lNumberField.getValue());
-
-        return model;
-    }*/
-
-    /*@Override
-    public void appendResult(String result) {
-        resultArea.finishEditing();
-        String res = resultArea.getValue() + "\n" + result;
-        resultArea.setValue(res);
-    }*/
+    @Override
+    public void refresh() {
+        grid.getLoader().load();
+    }
 
     @Override
     public Widget asWidget() {
@@ -308,8 +277,6 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
         VerticalLayoutContainer vc = new VerticalLayoutContainer();
         vc.add(buttonToolbar, new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5)));
         vc.add(filterToolbar, new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5)));
-        //vc.add(exportFormulaResultAnchor, new VerticalLayoutContainer.VerticalLayoutData(-1, 1, new Margins(0, 0, 0, 10)));
-        //vc.add(resultLabel, new VerticalLayoutContainer.VerticalLayoutData(1, 1, new Margins(2, 10, 10, 10)));
         vc.add(grid, new VerticalLayoutContainer.VerticalLayoutData(1, 1, new Margins(5)));
         vc.add(pagingToolBar, new VerticalLayoutContainer.VerticalLayoutData(1, -1, new Margins(5)));
 
@@ -322,20 +289,13 @@ public class UzFormulaView implements UzFormulaPresenter.Display {
     private NumberField<Double> mNumberField;
     private NumberField<Double> zNumberField;
     private NumberField<Double> lNumberField;
-
-    //private TextArea resultArea;
-
     private TextButton filterButton;
-
     private ToolBar filterToolbar;
-
     private Grid<UzFormulaResultModel> grid;
-
     private ToolBar buttonToolbar;
     private TextButton addButton;
-    private TextButton editButton;
     private TextButton deleteButton;
     private TextButton refreshButton;
-    private TextButton exportButton;
     private TextButton importButton;
+    private MenuItem exportItem;
 }

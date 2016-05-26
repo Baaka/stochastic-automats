@@ -10,4 +10,6 @@ public interface FormulaLocal {
     void deleteUzFormula(long formulaId);
 
     List<UzFormula> loadCalculatedUzFormulas(int limit, int offset);
+
+    int getCalculatedUzFormulaCount();
 }

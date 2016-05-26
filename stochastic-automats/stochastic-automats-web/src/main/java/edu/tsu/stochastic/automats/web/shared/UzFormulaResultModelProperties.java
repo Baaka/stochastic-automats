@@ -28,4 +28,6 @@ public interface UzFormulaResultModelProperties extends PropertyAccess<UzFormula
     ValueProvider<UzFormulaResultModel, Double> q();
 
     ValueProvider<UzFormulaResultModel, Double> result();
+
+    ValueProvider<UzFormulaResultModel, Double> privateCaseResult();
 }

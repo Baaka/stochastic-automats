@@ -30,11 +30,13 @@ public class UzFormula implements Serializable {
     private double q;
     @Column(name = "CALC_RES")
     private double result;
+    @Column(name = "CALC_RES_PRIVATE")
+    private double privateCaseResult;
 
     public UzFormula() {
     }
 
-    public UzFormula(double paramR, double paramAlpha, double paramEpsilon, double paramEta, double paramZ, double paramL, double r, double p, double q, double result) {
+    public UzFormula(double paramR, double paramAlpha, double paramEpsilon, double paramEta, double paramZ, double paramL, double r, double p, double q, double result, double privateCaseResult) {
         this.paramR = paramR;
         this.paramAlpha = paramAlpha;
         this.paramEpsilon = paramEpsilon;
@@ -45,6 +47,7 @@ public class UzFormula implements Serializable {
         this.p = p;
         this.q = q;
         this.result = result;
+        this.privateCaseResult = privateCaseResult;
     }
 
     public long getId() {
@@ -135,8 +138,17 @@ public class UzFormula implements Serializable {
         this.result = result;
     }
 
+    public Double getPrivateCaseResult() {
+        return privateCaseResult;
+    }
+
+    public void setPrivateCaseResult(Double privateCaseResult) {
+        this.privateCaseResult = privateCaseResult;
+    }
+
     @Override
     public String toString() {
+        String privateRes = (paramZ == 1 && (paramL == 1 || paramL == 2)) ? ", private case result=" + privateCaseResult : "";
         return "UzFormula{" +
                 "id=" + id +
                 ", paramR=" + paramR +
@@ -149,6 +161,7 @@ public class UzFormula implements Serializable {
                 ", p=" + p +
                 ", q=" + q +
                 ", result=" + result +
+                privateRes +
                 '}';
     }
 }

@@ -16,4 +16,6 @@ public interface FormulaServiceAsync {
     void calculateWnFormula(WnFormulaParamModel wnFormulaParamModel, int maxN, AsyncCallback<WnFormulaResultModel> async);
 
     void loadCalculatedUzFormulas(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<UzFormulaResultModel>> async);
+
+    void deleteCalculatedUzFormula(List<UzFormulaResultModel> formulas, AsyncCallback<Void> async);
 }

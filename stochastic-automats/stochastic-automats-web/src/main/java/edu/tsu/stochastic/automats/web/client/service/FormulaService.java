@@ -10,6 +10,8 @@ import edu.tsu.stochastic.automats.web.shared.UzFormulaResultModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaParamModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaResultModel;
 
+import java.util.List;
+
 @RemoteServiceRelativePath("formulaService")
 public interface FormulaService extends RemoteService {
 
@@ -29,6 +31,8 @@ public interface FormulaService extends RemoteService {
     }
 
     UzFormulaResultModel calculateUzFormula(UzFormulaParamModel uzFormulaParamModel);
+
+    void deleteCalculatedUzFormula(List<UzFormulaResultModel> formulas);
 
     WnFormulaResultModel calculateWnFormula(WnFormulaParamModel wnFormulaParamModel, int maxN);
 

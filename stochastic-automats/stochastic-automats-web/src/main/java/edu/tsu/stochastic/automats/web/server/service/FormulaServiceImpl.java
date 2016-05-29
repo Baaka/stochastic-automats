@@ -4,8 +4,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
-import edu.tsu.stochastic.automats.core.database.api.FormulaLocal;
-import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
+import edu.tsu.stochastic.automats.core.database.auth.api.AuthorizationLocal;
+import edu.tsu.stochastic.automats.core.database.auth.entity.User;
+import edu.tsu.stochastic.automats.core.database.formula.api.FormulaLocal;
+import edu.tsu.stochastic.automats.core.database.formula.entity.UzFormula;
 import edu.tsu.stochastic.automats.core.formula.UzFormulaCalculator;
 import edu.tsu.stochastic.automats.core.formula.WnFormulaCalculator;
 import edu.tsu.stochastic.automats.core.model.WnFormulaModel;
@@ -18,16 +20,22 @@ import edu.tsu.stochastic.automats.web.shared.WnFormulaResultModel;
 import javax.ejb.EJB;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FormulaServiceImpl extends RemoteServiceServlet implements FormulaService {
-
     @EJB
     private FormulaLocal formulaLocal;
+    @EJB
+    private AuthorizationLocal authorizationLocal;
 
     @Override
     public UzFormulaResultModel calculateUzFormula(UzFormulaParamModel uzFormulaParamModel) {
+        User currUser = authorizationLocal.findUserByLogin(getThreadLocalRequest().getUserPrincipal().getName());
+
         UzFormulaCalculator calculator = new UzFormulaCalculator(uzFormulaParamModel.toUzFormulaCodeParamModel());
-        UzFormula uzFormula = formulaLocal.saveUzFormula(calculator.getCalculatedUzFormula());
+        UzFormula uzFormula = calculator.getCalculatedUzFormula();
+        uzFormula.setCreatorId(currUser.getId());
+        uzFormula = formulaLocal.saveUzFormula(calculator.getCalculatedUzFormula());
         return new UzFormulaResultModel().setEntity(uzFormula);
     }
 
@@ -71,5 +79,10 @@ public class FormulaServiceImpl extends RemoteServiceServlet implements FormulaS
         int count = formulaLocal.getCalculatedUzFormulaCount();
 
         return new PagingLoadResultBean<>(resultModels, count, loadConfig.getOffset());
+    }
+
+    @Override
+    public Map<String, Integer> getUzFormulaCount() {
+        return formulaLocal.getUzFormulaCountByUser();
     }
 }

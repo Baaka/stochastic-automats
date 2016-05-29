@@ -18,4 +18,10 @@ public interface ClientFactory {
     AddUzFormulaPresenter.Display getAddUzFormulaDisplay();
 
     FileImportPresenter.Display getImportFormulaDisplay();
+
+    AdminPresenter.Display getAdminDisplay();
+
+    AboutPresenter.Display getAboutDisplay();
+
+    EditUserPresenter.Display getEditUserDisplay();
 }

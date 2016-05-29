@@ -5,13 +5,16 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import edu.tsu.stochastic.automats.web.client.error.ErrorHandler;
 import edu.tsu.stochastic.automats.web.client.event.*;
 import edu.tsu.stochastic.automats.web.client.presenter.*;
+import edu.tsu.stochastic.automats.web.client.service.UtilService;
 import edu.tsu.stochastic.automats.web.shared.ExportFormat;
 import edu.tsu.stochastic.automats.web.shared.Formula;
+import edu.tsu.stochastic.automats.web.shared.UserModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -127,11 +130,47 @@ public class AppController implements Presenter {
                 presenter.go(null);
             }
         });
+
+
+        AppController.eventBus.addHandler(LogoutEvent.TYPE, new LogoutEventHandler() {
+            @Override
+            public void onAction() {
+                UtilService.Util.getInstance().logout(new AsyncCallback<Void>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        AppController.errorHandler.onError(caught);
+                    }
+
+                    @Override
+                    public void onSuccess(Void result) {
+                        com.google.gwt.user.client.Window.Location.assign(GWT.getHostPageBaseURL());
+                    }
+                });
+            }
+        });
+
+        AppController.eventBus.addHandler(EditUserEvent.TYPE, new EditUserEventHandler() {
+            @Override
+            public void onEdit(UserModel userModel, AdminPresenter.Display parent) {
+                Presenter presenter = new EditUserPresenter(AppController.clientFactory.getEditUserDisplay(), userModel, parent);
+                presenter.go(null);
+            }
+        });
     }
 
     @Override
-    public void go(HasWidgets container) {
-        Presenter presenter = new AppFramePresenter(clientFactory.getAppFrameDisplay());
-        presenter.go(container);
+    public void go(final HasWidgets container) {
+        UtilService.Util.getInstance().getUserPermissions(new AsyncCallback<List<String>>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                AppController.errorHandler.onError(caught);
+            }
+
+            @Override
+            public void onSuccess(List<String> result) {
+                Presenter presenter = new AppFramePresenter(clientFactory.getAppFrameDisplay(), result);
+                presenter.go(container);
+            }
+        });
     }
 }

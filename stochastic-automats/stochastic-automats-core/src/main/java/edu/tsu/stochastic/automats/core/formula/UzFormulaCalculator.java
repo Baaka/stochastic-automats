@@ -1,6 +1,6 @@
 package edu.tsu.stochastic.automats.core.formula;
 
-import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
+import edu.tsu.stochastic.automats.core.database.formula.entity.UzFormula;
 import edu.tsu.stochastic.automats.core.helper.CommonFormulaHelper;
 import edu.tsu.stochastic.automats.core.model.UzFormulaParamModel;
 

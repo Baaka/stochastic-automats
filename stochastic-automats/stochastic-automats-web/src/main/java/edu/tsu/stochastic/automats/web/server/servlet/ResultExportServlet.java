@@ -1,7 +1,7 @@
 package edu.tsu.stochastic.automats.web.server.servlet;
 
-import edu.tsu.stochastic.automats.core.database.api.FormulaLocal;
-import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
+import edu.tsu.stochastic.automats.core.database.formula.api.FormulaLocal;
+import edu.tsu.stochastic.automats.core.database.formula.entity.UzFormula;
 import edu.tsu.stochastic.automats.web.shared.ExportFormat;
 import edu.tsu.stochastic.automats.web.shared.Formula;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;

@@ -11,6 +11,7 @@ import edu.tsu.stochastic.automats.web.shared.WnFormulaParamModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaResultModel;
 
 import java.util.List;
+import java.util.Map;
 
 @RemoteServiceRelativePath("formulaService")
 public interface FormulaService extends RemoteService {
@@ -37,4 +38,6 @@ public interface FormulaService extends RemoteService {
     WnFormulaResultModel calculateWnFormula(WnFormulaParamModel wnFormulaParamModel, int maxN);
 
     PagingLoadResult<UzFormulaResultModel> loadCalculatedUzFormulas(PagingLoadConfig loadConfig);
+
+    Map<String,Integer> getUzFormulaCount();
 }

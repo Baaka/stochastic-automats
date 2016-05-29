@@ -7,9 +7,6 @@ import com.google.gwt.resources.client.ImageResource;
 public interface Icons extends ClientBundle {
     Icons INSTANCE = GWT.create(Icons.class);
 
-    @Source("formula.png")
-    ImageResource formula();
-
     @Source("function.png")
     ImageResource function();
 
@@ -54,4 +51,10 @@ public interface Icons extends ClientBundle {
 
     @Source("tsu.png")
     ImageResource tsu();
+
+    @Source("users.png")
+    ImageResource users();
+
+    @Source("info.png")
+    ImageResource info();
 }

@@ -9,6 +9,7 @@ import edu.tsu.stochastic.automats.web.shared.WnFormulaParamModel;
 import edu.tsu.stochastic.automats.web.shared.WnFormulaResultModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FormulaServiceAsync {
     void calculateUzFormula(UzFormulaParamModel uzFormulaParamModel, AsyncCallback<UzFormulaResultModel> async);
@@ -18,4 +19,6 @@ public interface FormulaServiceAsync {
     void loadCalculatedUzFormulas(PagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<UzFormulaResultModel>> async);
 
     void deleteCalculatedUzFormula(List<UzFormulaResultModel> formulas, AsyncCallback<Void> async);
+
+    void getUzFormulaCount(AsyncCallback<Map<String, Integer>> async);
 }

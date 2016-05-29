@@ -1,7 +1,9 @@
 package edu.tsu.stochastic.automats.web.server.servlet;
 
-import edu.tsu.stochastic.automats.core.database.api.FormulaLocal;
-import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
+import edu.tsu.stochastic.automats.core.database.auth.api.AuthorizationLocal;
+import edu.tsu.stochastic.automats.core.database.auth.entity.User;
+import edu.tsu.stochastic.automats.core.database.formula.api.FormulaLocal;
+import edu.tsu.stochastic.automats.core.database.formula.entity.UzFormula;
 import edu.tsu.stochastic.automats.core.formula.UzFormulaCalculator;
 import edu.tsu.stochastic.automats.web.shared.Formula;
 import edu.tsu.stochastic.automats.web.shared.UzFormulaParamModel;
@@ -28,8 +30,12 @@ import java.util.List;
 public class FileImportServlet extends HttpServlet {
     @EJB
     private FormulaLocal formulaLocal;
+    @EJB
+    private AuthorizationLocal authorizationLocal;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User currUser = authorizationLocal.findUserByLogin(request.getRemoteUser());
+
         Formula formula = Formula.values()[Integer.valueOf(request.getParameter("formula"))];
 
         ServletFileUpload upload = new ServletFileUpload();
@@ -42,7 +48,7 @@ public class FileImportServlet extends HttpServlet {
                         case WN_FUNCTION:
                             break;
                         case UZ_FUNCTION:
-                            processUzFormula(inputStream);
+                            processUzFormula(inputStream, currUser.getId());
                             break;
                         case HDJ_FUNCTION:
                             break;
@@ -54,7 +60,8 @@ public class FileImportServlet extends HttpServlet {
         }
     }
 
-    private void processUzFormula(InputStream inputStream) throws IOException, InvalidFormatException {
+    private void processUzFormula(InputStream inputStream, long userId) throws IOException, InvalidFormatException {
+
         List<UzFormula> formulas = new ArrayList<>();
 
         try (Workbook wb = WorkbookFactory.create(inputStream)) {
@@ -80,7 +87,9 @@ public class FileImportServlet extends HttpServlet {
                     paramModel.setL(lParam);
 
                     UzFormulaCalculator calculator = new UzFormulaCalculator(paramModel.toUzFormulaCodeParamModel());
-                    formulas.add(calculator.getCalculatedUzFormula());
+                    UzFormula uzFormula = calculator.getCalculatedUzFormula();
+                    uzFormula.setCreatorId(userId);
+                    formulas.add(uzFormula);
                 }
             }
         }

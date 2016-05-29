@@ -1,4 +1,4 @@
-package edu.tsu.stochastic.automats.core.database.entity;
+package edu.tsu.stochastic.automats.core.database.formula.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,11 +32,13 @@ public class UzFormula implements Serializable {
     private double result;
     @Column(name = "CALC_RES_PRIVATE")
     private double privateCaseResult;
+    @Column(name = "CREATOR_ID")
+    private long creatorId;
 
     public UzFormula() {
     }
 
-    public UzFormula(double paramR, double paramAlpha, double paramEpsilon, double paramEta, double paramZ, double paramL, double r, double p, double q, double result, double privateCaseResult) {
+    public UzFormula(double paramR, double paramAlpha, double paramEpsilon, double paramEta, double paramZ, double paramL, double r, double p, double q, double result, double privateCaseResult,long creatorId) {
         this.paramR = paramR;
         this.paramAlpha = paramAlpha;
         this.paramEpsilon = paramEpsilon;
@@ -48,6 +50,7 @@ public class UzFormula implements Serializable {
         this.q = q;
         this.result = result;
         this.privateCaseResult = privateCaseResult;
+        this.creatorId = creatorId;
     }
 
     public long getId() {
@@ -144,6 +147,18 @@ public class UzFormula implements Serializable {
 
     public void setPrivateCaseResult(Double privateCaseResult) {
         this.privateCaseResult = privateCaseResult;
+    }
+
+    public void setPrivateCaseResult(double privateCaseResult) {
+        this.privateCaseResult = privateCaseResult;
+    }
+
+    public long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
     }
 
     @Override

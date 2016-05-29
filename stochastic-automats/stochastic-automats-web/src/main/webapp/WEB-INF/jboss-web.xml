@@ -1,0 +1,3 @@
+<jboss-web>
+	<security-domain>StochAutomatsSecurityDomain</security-domain>
+</jboss-web>

@@ -47,4 +47,19 @@ public class ClientFactoryImpl implements ClientFactory {
     public FileImportPresenter.Display getImportFormulaDisplay() {
         return new FileImportView();
     }
+
+    @Override
+    public AdminPresenter.Display getAdminDisplay() {
+        return new AdminView();
+    }
+
+    @Override
+    public AboutPresenter.Display getAboutDisplay() {
+        return new AboutView();
+    }
+
+    @Override
+    public EditUserPresenter.Display getEditUserDisplay() {
+        return new EditUserView();
+    }
 }

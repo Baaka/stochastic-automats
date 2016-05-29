@@ -1,7 +1,7 @@
 package edu.tsu.stochastic.automats.web.shared;
 
 import com.google.gwt.core.shared.GwtIncompatible;
-import edu.tsu.stochastic.automats.core.database.entity.UzFormula;
+import edu.tsu.stochastic.automats.core.database.formula.entity.UzFormula;
 
 import java.io.Serializable;
 
@@ -18,6 +18,7 @@ public class UzFormulaResultModel implements Serializable {
     private double q;
     private double result;
     private double privateCaseResult;
+    private long creatorId;
 
     public UzFormulaResultModel() {
     }
@@ -118,6 +119,14 @@ public class UzFormulaResultModel implements Serializable {
         this.privateCaseResult = privateCaseResult;
     }
 
+    public long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
+    }
+
     @GwtIncompatible
     public UzFormulaResultModel setEntity(UzFormula formula) {
         if (formula != null) {
@@ -133,6 +142,7 @@ public class UzFormulaResultModel implements Serializable {
             this.q = formula.getQ();
             this.result = formula.getResult();
             this.privateCaseResult = formula.getPrivateCaseResult();
+            this.creatorId = formula.getCreatorId();
         }
         return this;
     }
@@ -152,6 +162,7 @@ public class UzFormulaResultModel implements Serializable {
         formula.setQ(this.q);
         formula.setResult(this.result);
         formula.setPrivateCaseResult(this.privateCaseResult);
+        formula.setCreatorId(this.creatorId);
         return formula;
     }
 

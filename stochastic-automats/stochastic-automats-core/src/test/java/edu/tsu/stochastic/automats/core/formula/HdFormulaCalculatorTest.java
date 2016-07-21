@@ -15,17 +15,18 @@ public class HdFormulaCalculatorTest {
     }
 
     @Test
-    public void testAlphaX() {
+    public void testSigma() {
         int l = 1;
-        double q = 1;
-        double p = 2;
+        double q = 0.6;
+        double p = 0.4;
 
-        int x = 2;
+        int x = 6;
 
-        int maxd = 5;
+        int maxd = 8;
         double e = 1;
 
         double ro = Math.pow(getRo(l, q, p), (x - 2) * -1);
+        System.out.println("RO: " + ro);
 
         double eps = 0.3d;
         double r = 0.5d;
@@ -47,18 +48,19 @@ public class HdFormulaCalculatorTest {
     }
 
     @Test
-    public void testIotaX() {
+    public void testTau() {
         int l = 1;
-        double q = 1;
-        double p = 2;
+        // q = 1-p
+        double q = 0.6d;
+        double p = 0.4d;
 
-        int x = 2;
+        int x = 6;
 
-        int maxd = 5;
+        int maxd = 8;
         double e = 1;
 
         double ro = Math.pow(getRo(l, q, p), (x - 2) * -1);
-
+        System.out.println(ro);
 
         double eps = 0.3d;
         double r = 0.5d;
@@ -166,4 +168,5 @@ public class HdFormulaCalculatorTest {
     private double getRForHd(double e, double m, double r) {
         return (1d - e - m) * r;
     }
+
 }

@@ -12,7 +12,7 @@ public class UzFormulaCalculatorTest {
     public void init() {
         double r = 0.5d;
         double a = 0.2d;
-        double e = 0.3d;
+        double e = 0.4d;
         double m = 0.5d;
 
         double z = 1;
@@ -50,4 +50,54 @@ public class UzFormulaCalculatorTest {
     }
 
 
+    @Test
+    public void haha2() {
+        double epsilon = 0.4d;
+        double eta = 0.5d;
+
+        double r = 0.2d;
+        double p = 0.1d;
+        double q = 0.7d;
+
+        int l = 2;
+        //int z = 1;
+
+        double bigP = getP(p, epsilon, r);
+        double bigQ = getQ(q, eta, r);
+        double bigR = getR(epsilon, eta, r);
+
+        double first = (bigP / (1 - bigR));
+        double second = (bigQ / (1 - bigR)) * (Math.pow(bigP / (1 - bigR), (l + 1)));
+        double third = (l + 1) * (Math.pow(bigQ / (1 - bigR), 2)) * (Math.pow(bigP / (1 - bigR), (2 * l + 1)));
+        double fourth = ((l + 1) * (3 * l + 2)) / 2 * Math.pow(bigQ / (1 - bigR), 3) * Math.pow(bigP / (1 - bigR), 3 * l + 1);
+
+        System.out.println("R = " + bigR + "; P = " + bigP + "; Q = " + bigQ);
+        System.out.println("Our Res: " + (first + second + third + fourth));
+
+        double privCase = getPrivateCaseResult(bigP, bigQ, l);
+        System.out.println("Priv: " + privCase);
+
+    }
+
+    private double getPrivateCaseResult(double bigP, double bigQ, int l) {
+        if (l == 1) {
+            return bigP / bigQ;
+        } else if (l == 2) {
+            double res = (Math.sqrt(1 + (4 * (bigP / bigQ))) - 1) / 2;
+            return res;
+        }
+        return -1;
+    }
+
+    private double getR(double epsilon, double eta, double r) {
+        return ((1 - epsilon - eta) * r);
+    }
+
+    private double getQ(double q, double eta, double r) {
+        return (q + (eta * r));
+    }
+
+    private double getP(double p, double epsilon, double r) {
+        return (p + (epsilon * r));
+    }
 }
